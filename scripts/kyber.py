@@ -62,13 +62,13 @@ class Kyber:
         if self.cache_dist_2 is None:
             c = build_centered_binomial_dist(self.k)
             r = build_artifact_dist(self.q, self.r1)
-            if self.k2:
-                c2 = build_centered_binomial_dist(self.k)
-                E1 = dist_square(c2)
-            else:
-                E1 = dist_square(c)
+            E1 = dist_square(c)
             E1 = dist_iter_convolution(E1, self.m * self.n)
-            E2 = dist_convolution(c, r)
+            if self.k2:
+                c2 = build_centered_binomial_dist(self.k2)
+            else:
+                c2 = c
+            E2 = dist_convolution(c2, r)
             E2 = dist_square(E2)
             E2 = dist_iter_convolution(E2, self.m * self.n)
             self.cache_dist_2 = (E1, E2)
@@ -77,25 +77,25 @@ class Kyber:
     def e3_distribution(self):
         # c2 = <e1b + e3>_{q -> r2}
         # e3 is cbd + r2 rounding
-        c = build_centered_binomial_dist(self.k)
+        c = build_centered_binomial_dist(self.k2 if self.k2 else self.k)
         r = build_artifact_dist(self.q, self.r2)
         E3 = dist_convolution(c, r)
         return E3
 
     def one_shot_distribution(self):
         if self.cache_dist_3 is None:
-            s = build_centered_binomial_dist(self.k)
-            e = build_centered_binomial_dist(self.k)
+            k1 = build_centered_binomial_dist(self.k)
+            k2 = build_centered_binomial_dist(self.k2 if self.k2 else self.k)
             r0 = build_artifact_dist(self.q, self.r0)
             r1 = build_artifact_dist(self.q, self.r1)
             r2 = build_artifact_dist(self.q, self.r2)
-            sPr0 = dist_convolution(s, r0)
-            ePr1 = dist_convolution(e, r1)
-            ePr2 = dist_convolution(e, r2)
-            D1 = dist_product(e, sPr0)
-            D2 = dist_product(s, ePr1)
+            k1Pr0 = dist_convolution(k1, r0)
+            k2Pr1 = dist_convolution(k2, r1)
+            k2Pr2 = dist_convolution(k2, r2)
+            D1 = dist_product(k1, k1Pr0)
+            D2 = dist_product(k1, k2Pr1)
             D = dist_convolution(D1, D2)
             D = dist_iter_convolution(D, self.m * self.n)
-            D = dist_convolution(D, ePr2)
+            D = dist_convolution(D, k2Pr2)
             self.cache_dist_3 = D
         return self.cache_dist_3

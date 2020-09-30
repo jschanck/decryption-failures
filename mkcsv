@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATA=./data
+DATA=./scripts/data
 OUT=./csv
 
 function parse() {
@@ -14,7 +14,7 @@ awk -F \/ '$9 ~ /cost/ && $6 ~ /'$1'/ {gsub(".initial=","",$10) ; print $8 ", " 
 # parse 0 < $DATA/r2_r5n11pke0d > $OUT/r5n11pke0ds1.csv
 # parse 0 < $DATA/r2_r5nd1pke0d > $OUT/r5nd1pke0ds1.csv
 
-parse 1 < $DATA/r3_kyber512 > $OUT/kyber512s2.csv
+parse 1 < $DATA/r2_kyber512 > $OUT/kyber512s2.csv
 parse 1 < $DATA/r3_kyber512 > $OUT/kyber512r3s2.csv
 parse 1 < $DATA/r2_frodo640 > $OUT/frodo640s2.csv
 parse 1 < $DATA/r2_lightsaber > $OUT/lightsabers2.csv
