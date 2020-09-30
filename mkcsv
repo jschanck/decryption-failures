@@ -1,0 +1,48 @@
+#!/bin/bash
+
+DATA=./data
+OUT=./csv
+
+function parse() {
+awk -F \/ '$9 ~ /cost/ && $6 ~ /'$1'/ {gsub(".initial=","",$10) ; print $8 ", " $10 " " $8+$10}' | sort -n
+}
+
+# level 1
+# parse 0 < $DATA/r2_kyber512 > $OUT/kyber512s1.csv
+# parse 0 < $DATA/r2_frodo640 > $OUT/frodo640s1.csv
+# parse 0 < $DATA/r2_lightsaber > $OUT/lightsabers1.csv
+# parse 0 < $DATA/r2_r5n11pke0d > $OUT/r5n11pke0ds1.csv
+# parse 0 < $DATA/r2_r5nd1pke0d > $OUT/r5nd1pke0ds1.csv
+
+parse 1 < $DATA/r3_kyber512 > $OUT/kyber512s2.csv
+parse 1 < $DATA/r3_kyber512 > $OUT/kyber512r3s2.csv
+parse 1 < $DATA/r2_frodo640 > $OUT/frodo640s2.csv
+parse 1 < $DATA/r2_lightsaber > $OUT/lightsabers2.csv
+parse 1 < $DATA/r2_r5n11pke0d > $OUT/r5n11pke0ds2.csv
+parse 1 < $DATA/r2_r5nd1pke0d > $OUT/r5nd1pke0ds2.csv
+
+# level 3
+# parse 0 < $DATA/r2_kyber768 > $OUT/kyber768s1.csv
+# parse 0 < $DATA/r2_frodo976 > $OUT/frodo976s1.csv
+# parse 0 < $DATA/r2_saber > $OUT/sabers1.csv
+# parse 0 < $DATA/r2_r5n13pke0d > $OUT/r5n13pke0ds1.csv
+# parse 0 < $DATA/r2_r5nd3pke0d > $OUT/r5nd3pke0ds1.csv
+
+parse 1 < $DATA/r2_kyber768 > $OUT/kyber768s2.csv
+parse 1 < $DATA/r2_frodo976 > $OUT/frodo976s2.csv
+parse 1 < $DATA/r2_saber > $OUT/sabers2.csv
+parse 1 < $DATA/r2_r5n13pke0d > $OUT/r5n13pke0ds2.csv
+parse 1 < $DATA/r2_r5nd3pke0d > $OUT/r5nd3pke0ds2.csv
+
+# level 5
+# parse 0 < $DATA/r2_kyber1024 > $OUT/kyber1024s1.csv
+# parse 0 < $DATA/r2_frodo1344 > $OUT/frodo1344s1.csv
+# parse 0 < $DATA/r2_firesaber > $OUT/firesabers1.csv
+# parse 0 < $DATA/r2_r5n15pke0d > $OUT/r5n15pke0ds1.csv
+# parse 0 < $DATA/r2_r5nd5pke0d > $OUT/r5nd5pke0ds1.csv
+
+parse 1 < $DATA/r2_kyber1024 > $OUT/kyber1024s2.csv
+parse 1 < $DATA/r2_frodo1344 > $OUT/frodo1344s2.csv
+parse 1 < $DATA/r2_firesaber > $OUT/firesabers2.csv
+parse 1 < $DATA/r2_r5n15pke0d > $OUT/r5n15pke0ds2.csv
+parse 1 < $DATA/r2_r5nd5pke0d > $OUT/r5nd5pke0ds2.csv
