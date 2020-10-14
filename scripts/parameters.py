@@ -50,13 +50,13 @@ NEWHOPE1024 = ("r2/newhope1024", NewHope(1024, 4, 8, 12289, 2**3))
 NEWHOPE512q7681 = ("r2/newhope512q7681", NewHope(512, 2, 8, 7681, 2**3))
 NEWHOPE1024q7681 = ("r2/newhope1024q7681", NewHope(1024, 4, 8, 7681, 2**3))
 NEWHOPE512q3329 = ("r2/newhope512q3329", NewHope(512, 2, 4, 3329, 2**3))
-# NTRU-HPS
-NTRUEPHEM509 = ("r2/ntruephem509", NTRUHPS(509, 2048, ephem=True))
-NTRUEPHEM677 = ("r2/ntruephem677", NTRUHPS(677, 2048, ephem=True))
-NTRUEPHEM821 = ("r2/ntruephem821", NTRUHPS(821, 4096, ephem=True))
-NTRUHPS509 = ("r2/ntruhps2048509", NTRUHPS(509, 2048, ephem=False))
-NTRUHPS677 = ("r2/ntruhps2048677", NTRUHPS(677, 2048, ephem=False))
-NTRUHPS821 = ("r2/ntruhps4096821", NTRUHPS(821, 4096, ephem=False))
-# NTRU-HRSS
-NTRUEPHEM701 = ("r2/ntruephem701", NTRUHRSS(701, ephem=True))
-NTRUHPS821 = ("r2/ntruhrss701", NTRUHRSS(701, ephem=False))
+# NTRU
+NTRUHPS509 = ("r2/ntruhps2048509", NTRUHPS(509, 2048))
+NTRUHPS677 = ("r2/ntruhps2048677", NTRUHPS(677, 2048))
+NTRUHPS821 = ("r2/ntruhps4096821", NTRUHPS(821, 4096))
+NTRUHRSS701 = ("r2/ntruhrss701", NTRUHRSS(701))
+# NTRU with improper keys
+NTRU_IMPROPER_HPS509 = ("aux/ntru_improper_hps509", NTRUHPS(509, 2048, improper=True))
+NTRU_IMPROPER_HPS677 = ("aux/ntru_improper_hps677", NTRUHPS(677, 2048, improper=True))
+NTRU_IMPROPER_HPS821 = ("aux/ntru_improper_hps821", NTRUHPS(821, 4096, improper=True))
+NTRU_IMPROPER_HRSS701 = ("aux/ntru_improper_hrss701", NTRUHRSS(701, improper=True))

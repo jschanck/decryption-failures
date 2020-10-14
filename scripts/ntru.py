@@ -5,11 +5,11 @@ from distributions import dist_convolution,\
                           dist_iter_convolution
 
 class NTRUHPS:
-    def __init__(self, n, q, ephem=False):
+    def __init__(self, n, q, improper=False):
         self.n = n
         self.q = q
         self.wt = q//8-2
-        self.ephem = ephem
+        self.improper = improper
 
         self.cache_dist_1 = None
         self.cache_dist_2 = None
@@ -31,7 +31,7 @@ class NTRUHPS:
         return 2 * (self.n-1)
 
     def threshold(self):
-        if self.ephem: # a = 3rg + 3Fm + m
+        if self.improper: # a = 3rg + 3Fm + m
             t = self.q // 2 - 2
         else:          # a = 3rg + fm
             t = self.q // 2 - 1
@@ -41,7 +41,7 @@ class NTRUHPS:
         if self.cache_dist_1 is None:
             t = {0:1/3, 1:2/3}
             Df = dist_iter_convolution(t, self.n-1)
-            if self.ephem:
+            if self.improper:
                 Df = dist_scale(Df, 9)
             Dg = {9*self.wt: 1}
             self.cache_dist_1 = (Df, Dg)
@@ -63,7 +63,7 @@ class NTRUHPS:
         if self.cache_dist_3 is None:
             t = {-1:1/3, 0:1/3, 1:1/3}
             Dfm = dist_iter_convolution(t, self.wt)
-            if self.ephem:
+            if self.improper:
                 Dfm = dist_scale(Dfm, 3)
             t = {-3:1/2, 3:1/2}
             Dgr = dist_iter_convolution(t, self.wt)
@@ -76,7 +76,7 @@ class NTRUHPS:
         pnz = expectation(top_quantile(D, 2**(lgu//2)))/(self.n-1)
         t = {-1:pnz/2, 0:1-pnz, 1:pnz/2}
         Dfm = dist_iter_convolution(t, self.wt)
-        if self.ephem:
+        if self.improper:
             Dfm = dist_scale(Dfm, 3)
         t = {-3:1/2, 3:1/2}
         Dgr = dist_iter_convolution(t, self.wt)
@@ -84,13 +84,13 @@ class NTRUHPS:
 
 
 class NTRUHRSS:
-    def __init__(self, n, q=None, ephem=False):
+    def __init__(self, n, q=None, improper=False):
         self.n = n
         if q is None:
             self.q = int(2**round(0.5 + 3.5 + log2(n)))
         else:
             self.q = q
-        self.ephem = ephem
+        self.improper = improper
 
         self.cache_dist_1 = None
         self.cache_dist_2 = None
@@ -112,7 +112,7 @@ class NTRUHRSS:
         return 2 * (self.n-1)
 
     def threshold(self):
-        if self.ephem:
+        if self.improper:
             t = (self.q // 2 - 1)/(2**0.5) - 1
         else:
             t = (self.q // 2 - 1)/(2**0.5)
@@ -123,7 +123,7 @@ class NTRUHRSS:
             t = {0:1/3, 1:2/3}
             Df = dist_iter_convolution(t, self.n-1)
             Dg = dist_scale(Df, 3**2)
-            if self.ephem:
+            if self.improper:
                 Df = dist_scale(Df, 3**2)
             self.cache_dist_1 = (Df, Dg)
         return self.cache_dist_1
@@ -145,7 +145,7 @@ class NTRUHRSS:
             t = {-1:1/3, 0:1/3, 1:1/3}
             Dfm = dist_iter_convolution(t, self.n-1)
             Dgr = dist_scale(Dfm, 3)
-            if self.ephem:
+            if self.improper:
                 Dfm = dist_scale(Dfm, 3)
             self.cache_dist_3 = dist_convolution(Dfm, Dgr)
         return self.cache_dist_3
@@ -157,7 +157,7 @@ class NTRUHRSS:
         t = {-1:pnz/2, 0:1-pnz, 1:pnz/2}
         Dfm = dist_iter_convolution(t, self.n-1)
         Dgr = dist_scale(Dfm, 3)
-        if self.ephem:
+        if self.improper:
             Dfm = dist_scale(Dfm, 3)
         return dist_convolution(Dfm, Dgr)
 
@@ -211,7 +211,8 @@ if __name__ == "__main__":
 
     SQS = range(0,65,2)
     EQS = [0,]
-    PSS = [NTRUEPHEM509, NTRUEPHEM677, NTRUEPHEM821, NTRUEPHEM701]
+    PSS = [NTRU_IMPROPER_HPS509, NTRU_IMPROPER_HPS677, NTRU_IMPROPER_HRSS701, NTRU_IMPROPER_HPS821]
+
     for (label, ps) in PSS:
         for i in SQS:
             for j in EQS:
